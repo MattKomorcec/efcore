@@ -280,8 +280,11 @@ namespace Microsoft.EntityFrameworkCore.Metadata.Conventions
                 property.GetScale(),
                 property.GetProviderClrType(),
                 property.GetValueGeneratorFactory(),
+                null,
                 property.GetValueConverter(),
+                null,
                 property.GetValueComparer(),
+                null,
                 property.GetKeyValueComparer(),
                 property.GetTypeMapping());
 
@@ -308,8 +311,12 @@ namespace Microsoft.EntityFrameworkCore.Metadata.Conventions
                 annotations.Remove(CoreAnnotationNames.Precision);
                 annotations.Remove(CoreAnnotationNames.Scale);
                 annotations.Remove(CoreAnnotationNames.ProviderClrType);
+                annotations.Remove(CoreAnnotationNames.ValueGeneratorFactory);
+                annotations.Remove(CoreAnnotationNames.ValueGeneratorFactoryType);
                 annotations.Remove(CoreAnnotationNames.ValueConverter);
+                annotations.Remove(CoreAnnotationNames.ValueConverterType);
                 annotations.Remove(CoreAnnotationNames.ValueComparer);
+                annotations.Remove(CoreAnnotationNames.ValueComparerType);
             }
         }
 

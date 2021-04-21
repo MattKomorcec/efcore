@@ -574,8 +574,13 @@ namespace Microsoft.EntityFrameworkCore.Metadata
         ///     The type that the property value will be converted to before being sent to the database provider.
         /// </param>
         /// <param name="valueGeneratorFactory"> The factory that has been set to generate values for this property, if any. </param>
+        /// <param name="valueGeneratorFactoryType">
+        ///     The type of the factory that has been set to generate values for this property, if any.
+        /// </param>
         /// <param name="valueConverter"> The custom <see cref="ValueConverter" /> set for this property. </param>
+        /// <param name="valueConverterType"> A type that derives from <see cref="ValueConverter"/>. </param>
         /// <param name="valueComparer"> The <see cref="ValueComparer" /> for this property. </param>
+        /// <param name="valueComparerType"> A type that derives from <see cref="ValueComparer"/>. </param>
         /// <param name="keyValueComparer"> The <see cref="ValueComparer" /> to use with keys for this property. </param>
         /// <param name="typeMapping"> The <see cref="CoreTypeMapping" /> for this property. </param>
         /// <returns> The newly created property. </returns>
@@ -596,8 +601,11 @@ namespace Microsoft.EntityFrameworkCore.Metadata
             int? scale = null,
             Type? providerPropertyType = null,
             Func<IProperty, IEntityType, ValueGenerator>? valueGeneratorFactory = null,
+            Type? valueGeneratorFactoryType = null,
             ValueConverter? valueConverter = null,
+            Type? valueConverterType = null,
             ValueComparer? valueComparer = null,
+            Type? valueComparerType = null,
             ValueComparer? keyValueComparer = null,
             CoreTypeMapping? typeMapping = null)
         {
@@ -619,8 +627,11 @@ namespace Microsoft.EntityFrameworkCore.Metadata
                 scale,
                 providerPropertyType,
                 valueGeneratorFactory,
+                valueGeneratorFactoryType,
                 valueConverter,
+                valueConverterType,
                 valueComparer,
+                valueComparerType,
                 keyValueComparer,
                 typeMapping);
 

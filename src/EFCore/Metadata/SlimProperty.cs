@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Utilities;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Microsoft.EntityFrameworkCore.Metadata
@@ -57,8 +58,11 @@ namespace Microsoft.EntityFrameworkCore.Metadata
             int? scale,
             Type? providerClrType,
             Func<IProperty, IEntityType, ValueGenerator>? valueGeneratorFactory,
+            Type? valueGeneratorFactoryType,
             ValueConverter? valueConverter,
+            Type? valueConverterType,
             ValueComparer? valueComparer,
+            Type? valueComparerType,
             ValueComparer? keyValueComparer,
             CoreTypeMapping? typeMapping)
             : base(name, propertyInfo, fieldInfo, propertyAccessMode)
@@ -70,7 +74,19 @@ namespace Microsoft.EntityFrameworkCore.Metadata
             _valueGenerated = valueGenerated;
             _beforeSaveBehavior = beforeSaveBehavior;
             _afterSaveBehavior = afterSaveBehavior;
+
+            if (valueGeneratorFactory == null
+                && valueGeneratorFactoryType != null)
+            {
+                valueGeneratorFactory = ((ValueGeneratorFactory)Activator.CreateInstance(valueGeneratorFactoryType)!).Create;
+            }
             _valueGeneratorFactory = valueGeneratorFactory;
+
+            if (valueConverter == null
+                && valueConverterType != null)
+            {
+                valueConverter = (ValueConverter?)Activator.CreateInstance(valueConverterType);
+            }
             _valueConverter = valueConverter;
 
             if (maxLength != null)
@@ -95,6 +111,17 @@ namespace Microsoft.EntityFrameworkCore.Metadata
             }
 
             _typeMapping = typeMapping;
+
+            if (valueComparer == null
+                && valueComparerType != null)
+            {
+                valueComparer = (ValueComparer?)Activator.CreateInstance(valueComparerType);
+
+                if (keyValueComparer == null)
+                {
+                    keyValueComparer = valueComparer;
+                }
+            }
             _valueComparer = valueComparer ?? TypeMapping.Comparer;
             _keyValueComparer = keyValueComparer ?? TypeMapping.KeyComparer;
         }
